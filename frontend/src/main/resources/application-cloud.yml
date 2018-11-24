@@ -1,0 +1,7 @@
+backend:
+  # Host name is set to the backend app name.
+  # PCF will map each backend app instance to a DNS entry (using BOSH-DNS).
+  # These DNS entries are included in the DNS zone "apps.internal".
+  # This DNS zone is automatically updated as app instances are started/stopped.
+  host: "pcf-c2c-backend.apps.internal"
+  port: 8080

@@ -1,0 +1,17 @@
+---
+applications:
+  - name: pcf-c2c-backend
+    memory: 1G
+    path: backend/target/pcf-c2c-backend.jar
+    instances: 4
+    routes:
+      - route: pcf-c2c-backend.apps.internal
+    buildpacks:
+      - https://github.com/cloudfoundry/java-buildpack.git
+
+  - name: pcf-c2c-frontend
+    memory: 1G
+    random-route: true
+    path: frontend/target/pcf-c2c-frontend.jar
+    buildpacks:
+      - https://github.com/cloudfoundry/java-buildpack.git

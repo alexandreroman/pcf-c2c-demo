@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: pcf-c2c-frontend
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+backend:
+  host: localhost
+  port: 8081

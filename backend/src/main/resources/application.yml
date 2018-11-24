@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: pcf-c2c-backend
+
+server:
+  port: ${PORT:8081}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
