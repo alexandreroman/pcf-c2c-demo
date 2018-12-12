@@ -30,9 +30,9 @@ class Controller(private val instanceInfo: InstanceInfo) {
 
     @GetMapping("/ring")
     fun ringDoorbell(@NotEmpty @RequestParam("visitor") visitor: String): DoorbellResponse {
-        logger.info("Someone is at the door: ${visitor}")
+        logger.info("Someone is at the door: $visitor")
         val c = counter.incrementAndGet()
-        return DoorbellResponse("$instanceInfo says:\nThank you for coming, ${visitor}!\nVisitor count: $c")
+        return DoorbellResponse("$instanceInfo says:\nThank you for coming, $visitor!\nVisitor count: $c")
     }
 
     data class DoorbellResponse(val message: String)
