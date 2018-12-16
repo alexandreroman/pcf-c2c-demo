@@ -17,7 +17,8 @@
 package fr.alexandreroman.demos.pcfc2c.backend.config
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import fr.alexandreroman.demos.pcfc2c.backend.InstanceInfo
 import org.springframework.beans.factory.annotation.Value
@@ -28,24 +29,26 @@ import org.springframework.context.annotation.Configuration
  * Factory component creating [InstanceInfo] instances.
  */
 @Configuration
-class InstanceInfoFactory {
+class InstanceInfoConfig {
     @Value("\${spring.application.name}")
     private lateinit var springApplicationName: String
 
     @Bean
-    fun instanceInfo(): InstanceInfo {
+    fun instanceInfo(objectMapper: ObjectMapper): InstanceInfo {
         val instanceIndex: Int = Integer.parseInt(System.getenv("CF_INSTANCE_INDEX") ?: "-1")
         val applicationName: String
         val vcapApplicationJson = System.getenv("VCAP_APPLICATION")
         if (vcapApplicationJson == null) {
             applicationName = springApplicationName
         } else {
-            val vcapApplication = jacksonObjectMapper().readValue<VcapApplication>(vcapApplicationJson)
+            val vcapApplication = objectMapper.readValue<VcapApplication>(vcapApplicationJson)
             applicationName = vcapApplication.applicationName ?: springApplicationName
         }
         return InstanceInfo(applicationName, instanceIndex)
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private data class VcapApplication(val applicationName: String?)
+    private data class VcapApplication(
+            @JsonProperty("application_name")
+            val applicationName: String?)
 }
