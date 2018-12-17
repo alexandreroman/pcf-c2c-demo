@@ -39,8 +39,7 @@ class BackendConfig {
     // - no need for a service registry (such as Eureka, Consul, Zookeeper):
     //   BOSH-DNS takes care of locating running applications, using health checks;
     // - distribute REST calls across instances: when a host name is being resolved,
-    //   BOSH-DNS choose any running application name, acting as a client-side
-    //   load-balancer (like Ribbon).
+    //   BOSH-DNS chooses a running application name, making sure this instance is healthy.
 
     @Bean
     fun backendClientApi(retrofit: Retrofit) = retrofit.create(BackendClientApi::class.java)

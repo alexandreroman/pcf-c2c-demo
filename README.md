@@ -17,8 +17,7 @@ $ cf add-network-policy <app-source> --destination-app <app-target> --protocol t
 ```
 
 Using BOSH-DNS and container-to-container, your microservices do not require any external libraries
-to locate endpoints. BOSH-DNS also brings client-side load-balancing
-(like [Ribbon](https://github.com/Netflix/ribbon)) for "free".
+to locate endpoints.
 
 If you are using these features, **you do not need to install** the
 [Spring Cloud Service tile](https://docs.pivotal.io/spring-cloud-services/2-0/common/index.html)
