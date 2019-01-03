@@ -51,7 +51,7 @@ The frontend app is the only one exposing a public endpoint:
 ```shell
 $ curl -s http://pcf-c2c-frontend-RANDOM-WORDS.domain.com
 Welcome to PCF Container-to-container Demo
-Frontend instance: pcf-c2c-frontend/0
+Frontend instance: [pcf-c2c-frontend/0 10.255.24.52]
 Connecting to backend: pcf-c2c-backend.apps.internal:8080
 Received message from backend:
   No backend service available
@@ -72,11 +72,11 @@ are now accessible by frontend app instances:
 ```shell
 $ curl -s http://pcf-c2c-frontend-RANDOM-WORDS.domain.com
 Welcome to PCF Container-to-container Demo
-Frontend instance: pcf-c2c-frontend/0
+Frontend instance: [pcf-c2c-frontend/0 10.255.24.52]
 Connecting to backend: pcf-c2c-backend.apps.internal:8080
 Received message from backend:
-  pcf-c2c-backend/3 says:
-  Thank you for coming, pcf-c2c-frontend/0!
+  [pcf-c2c-backend/3 10.255.24.25] says:
+  Thank you for coming, [pcf-c2c-frontend/0 10.255.24.52]!
   Visitor count: 1
 Time spent: 10 ms
 ```
@@ -84,6 +84,23 @@ Time spent: 10 ms
 If you kill a backend app instance used by a frontend app instance, an other backend app instance
 will automatically be resolved by BOSH-DNS the next time a frontend app instance is making a
 REST call. Notice there is no app downtime while a new backend app is being used.
+
+Client-side load-balancing is done without using an external
+library (such as Netflix Ribbon). A custom
+[OkHttp3 Interceptor](https://square.github.io/okhttp/3.x/okhttp/okhttp3/Interceptor.html)
+implementation (used by Retrofit2) is included to load balance 
+network requests. This implementation simply uses backend
+IP addresses given by BOSH-DNS, using a call to
+[InetAddress.getByName](https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html#getByName-java.lang.String-).
+
+You can disable client-side load-balancing by overriding the
+property `backend.loadBalancing`, which is set to
+`true` by default. You may also set this property using an
+environment variable:
+```shell
+$ cf set-env pcf-c2c-frontend BACKEND_LOADBALANCING false
+$ cf restage pcf-c2c-frontend
+```
 
 ## Contribute
 

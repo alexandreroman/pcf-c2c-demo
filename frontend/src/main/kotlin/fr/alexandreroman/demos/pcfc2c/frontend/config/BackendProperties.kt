@@ -26,4 +26,5 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties("backend")
 class BackendProperties(
         var host: String = "pcf-c2c-backend",
-        var port: Int = 8080)
+        var port: Int = 8080,
+        var loadBalancing: Boolean = false)

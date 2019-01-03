@@ -11,3 +11,4 @@ management:
 backend:
   host: localhost
   port: 8081
+  loadBalancing: false

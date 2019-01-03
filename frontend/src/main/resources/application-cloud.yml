@@ -5,3 +5,4 @@ backend:
   # This DNS zone is automatically updated as app instances are started/stopped.
   host: "pcf-c2c-backend.apps.internal"
   port: 8080
+  loadBalancing: true

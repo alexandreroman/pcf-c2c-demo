@@ -21,7 +21,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.util.StopWatch
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ResponseBody
 import java.io.PrintWriter
+import java.net.InetAddress
 
 @Controller
 class Controller(
@@ -54,4 +56,16 @@ class Controller(
 
         logger.info("Sending message received from backend: $resp")
     }
+
+    @GetMapping("/backends")
+    @ResponseBody
+    fun backendAddresses(): String =
+            InetAddress.getAllByName(backendProps.host)
+                    .joinToString(" ") { it.hostAddress }
+
+
+    @GetMapping("/backend")
+    @ResponseBody
+    fun backendAddress(): String =
+            InetAddress.getByName(backendProps.host).hostAddress
 }
