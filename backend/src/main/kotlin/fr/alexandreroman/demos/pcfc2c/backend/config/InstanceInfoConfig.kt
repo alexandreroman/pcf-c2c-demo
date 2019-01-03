@@ -24,6 +24,7 @@ import fr.alexandreroman.demos.pcfc2c.backend.InstanceInfo
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import java.net.InetAddress
 
 /**
  * Factory component creating [InstanceInfo] instances.
@@ -44,7 +45,8 @@ class InstanceInfoConfig {
             val vcapApplication = objectMapper.readValue<VcapApplication>(vcapApplicationJson)
             applicationName = vcapApplication.applicationName ?: springApplicationName
         }
-        return InstanceInfo(applicationName, instanceIndex)
+        val ip = InetAddress.getLocalHost().hostAddress
+        return InstanceInfo(applicationName, instanceIndex, ip)
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

@@ -19,8 +19,8 @@ package fr.alexandreroman.demos.pcfc2c.backend
 /**
  * Class describing an application instance.
  */
-class InstanceInfo(val applicationName: String, val instanceIndex: Int) {
+class InstanceInfo(val applicationName: String, val instanceIndex: Int, val ip: String) {
     override fun toString(): String {
-        return "$applicationName/$instanceIndex"
+        return "[$applicationName/$instanceIndex $ip]"
     }
 }
